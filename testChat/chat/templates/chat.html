@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+</head>
+<body>
+    <h1>Chat</h1>
+    <input type="text" id="message" />
+    <button id="send">Send</button>
+    <ul id="messages"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            var socket = io();
+
+            // When the send button is clicked, send the message to the server.
+            $('#send').on('click', function() {
+                var message = $('#message').val();
+                socket.emit('chat_message', message);
+            });
+
+            // Listen for messages from the server.
+            socket.on('chat_message', function(message) {
+                $('#messages').append('<li>' + message + '</li>');
+            });
+        });
+    </script>
+</body>
+</html>
